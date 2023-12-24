@@ -28,8 +28,7 @@ const Issues = async () => {
             return (
               <Table.Row key={issue.id}>
                 <Table.Cell>
-                  {issue.title}
-
+                  <Link href={`/issue/${issue.id}`}>{issue.title}</Link>
                   <div className="block sm:hidden">
                     <ProgressBadge status={issue.status}></ProgressBadge>
                   </div>
