@@ -12,14 +12,14 @@ const NavBar = () => {
       href: "/",
     },
     {
-      label: "Issues",
-      href: "/issues",
+      label: "Issue",
+      href: "/issue",
     },
   ];
   const pathname = usePathname();
 
   return (
-    <header className="flex p-5 gap-8 items-center border-y mb-6">
+    <header className="flex p-4 gap-8 items-center border-y mb-2">
       <nav>
         <Link href="/" className="text-xl">
           <FaBug />
