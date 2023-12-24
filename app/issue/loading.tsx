@@ -1,17 +1,16 @@
-import { Badge, Button, Table } from "@radix-ui/themes";
-import Link from "next/link";
 import React from "react";
-import prisma from "@/prisma/client";
-import ProgressBadge from "../component/ProgressBadge";
 import IssueActions from "./IssueActions";
-import delay from "delay";
-const Issues = async () => {
-  const issues = await prisma.issue.findMany();
-  await delay(2000);
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+import { Table } from "@radix-ui/themes";
+import ProgressBadge from "../component/ProgressBadge";
+const loading = () => {
   return (
-    <div className="space-y-4">
+    <div>
       <IssueActions />
-      <Table.Root variant="surface">
+
+      {/* for showing the skelaton */}
+      <Table.Root variant="surface" className="mt-4">
         <Table.Header>
           <Table.Row>
             <Table.ColumnHeaderCell>Title</Table.ColumnHeaderCell>
@@ -24,22 +23,20 @@ const Issues = async () => {
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {issues.map((issue) => {
+          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((issue) => {
             return (
-              <Table.Row key={issue.id}>
+              <Table.Row key={issue}>
                 <Table.Cell>
-                  {issue.title}
-
+                  <Skeleton />
                   <div className="block sm:hidden">
-                    <ProgressBadge status={issue.status}></ProgressBadge>
+                    <Skeleton />
                   </div>
                 </Table.Cell>
-
                 <Table.Cell className="hidden sm:table-cell">
-                  <ProgressBadge status={issue.status}></ProgressBadge>
+                  <Skeleton />
                 </Table.Cell>
                 <Table.Cell className="hidden sm:table-cell">
-                  {issue.createdAt.toDateString()}
+                  <Skeleton />
                 </Table.Cell>
               </Table.Row>
             );
@@ -50,4 +47,4 @@ const Issues = async () => {
   );
 };
 
-export default Issues;
+export default loading;
