@@ -10,10 +10,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { CreateIssueSchema } from "@/app/validationSchema";
 import { z } from "zod";
 import ErrorMessage from "@/app/component/ErrorMessage";
+import Spinner from "@/app/component/Spinner";
 
 type IssueForm = z.infer<typeof CreateIssueSchema>;
 
 const CreateNewIssue = () => {
+  const [isFormSubmitting, setIsFormSubmitting] = useState(false);
   const router = useRouter();
   const [error, setError] = useState("");
   const {
@@ -26,6 +28,7 @@ const CreateNewIssue = () => {
   });
   const onSubmit = async (data: IssueForm) => {
     try {
+      setIsFormSubmitting(true);
       const response = await axios.post(
         "http://localhost:3000/api/issues",
         data
@@ -34,6 +37,8 @@ const CreateNewIssue = () => {
     } catch (error) {
       console.log(error);
       setError("Something went wrong please try again later!");
+    } finally {
+      setIsFormSubmitting(false);
     }
   };
   return (
@@ -57,7 +62,9 @@ const CreateNewIssue = () => {
           <ErrorMessage>{errors.description?.message}</ErrorMessage>
         </div>
 
-        <Button>Submit New Issue</Button>
+        <Button disabled={isFormSubmitting}>
+          Submit New Issue {isFormSubmitting ? <Spinner /> : null}
+        </Button>
       </form>
     </div>
   );
